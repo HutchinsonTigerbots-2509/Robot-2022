@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 import java.util.ResourceBundle.Control;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import frc.robot.subsystems.Shooter;
@@ -17,10 +18,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climb extends SubsystemBase {
   public WPI_VictorSPX Climber = new WPI_VictorSPX(Constants.kClimberMotorID);
+  
 
   public DoubleSolenoid ClimbSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3);
   /** Creates a new Climb. */
   public Climb() {
+    Climber.setNeutralMode(NeutralMode.Brake);
     ClimbSolenoid.set(Value.kForward);
   }
 

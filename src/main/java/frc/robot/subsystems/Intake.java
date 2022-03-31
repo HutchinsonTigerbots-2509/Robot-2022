@@ -73,12 +73,12 @@ public class Intake extends SubsystemBase {
     return;
   }
 
-  public void IntakeIn(double runnerSpeed){
+  public void IntakeIn(double intakeSpeed){
     if (LightSensor.getVoltage() < 0.5) {
-      Intake.set(ControlMode.PercentOutput,runnerSpeed);
+      Intake.set(ControlMode.PercentOutput,intakeSpeed);
     } 
     else {
-      Intake.set(ControlMode.PercentOutput,runnerSpeed);
+      Intake.set(ControlMode.PercentOutput,intakeSpeed);
       ConveyorIn(0.5);
     }
     return;
