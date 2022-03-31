@@ -9,24 +9,37 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SelectCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 import frc.robot.commands.Drive;
 import frc.robot.commands.Pickup;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.ShootStop;
 import frc.robot.commands.RunConveyor;
+
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+
+import com.kauailabs.navx.frc.AHRS;
+
+import org.opencv.features2d.FastFeatureDetector;
+
+import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.SPI;
+
 //import frc.robot.AutoCommands;
 
 /**
@@ -49,6 +62,11 @@ public class RobotContainer {
   SendableChooser<Command> 
   //SendableChooser<Command> = new SendableChooser<>();*/
   //private SendableChooser autoSelect;
+
+  // ***** Nav X ***** //
+  AHRS NavX;
+  float DisplacementX = NavX.getDisplacementX();
+  float DisplacementY = NavX.getDisplacementY();
   
   // ***** Subsystems ***** //
   private Drivetrain sDrivetrain = new Drivetrain();
@@ -81,10 +99,16 @@ public class RobotContainer {
   private JoystickButton shootSpeedBtn4;
 
 
-  private AutoCommands mAutoCommands = AutoCommands.REDRIGHT;
+  private AutoCommands mAutoCommands; //= AutoCommands.REDRIGHT;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
+    try 
+      {NavX = new AHRS(SPI.Port.kMXP);}
+    catch (RuntimeException ex ) 
+      {DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);}
+
     SendableChooser<Command> autoSelect = new SendableChooser<>(); //Set up your 
 
     autoSelect.setDefaultOption("RED_RIGHT", redRight);
@@ -158,6 +182,7 @@ public class RobotContainer {
     climbToggleBtn = new JoystickButton(stick, Constants.kJoystickButton11);
     climbToggleBtn.whenPressed(new InstantCommand(() -> sShooter.ShootStop()));
     climbToggleBtn.whenPressed(new InstantCommand(() -> sClimb.ClimbSolenoidToggle()));
+
   }
 
   /**
@@ -191,9 +216,10 @@ public class RobotContainer {
   );
 
   private Command blueRight = new SequentialCommandGroup(
+    //new Pickup(sIntake).alongWith(new Drive(sDrivetrain, .6)).until((DisplacementX > 20 || DisplacementX == 20)),
     new Pickup(sIntake).alongWith(new Drive(sDrivetrain, .6)).withTimeout(2),
-    new Shoot(sShooter, Constants.kShootingSpeed),
     new RunConveyor(sIntake),
+    new Shoot(sShooter, Constants.kShootingSpeed),
     new ShootStop(sShooter)
   );
 
@@ -211,12 +237,17 @@ public class RobotContainer {
     new ShootStop(sShooter)
   );
 
+  /*public Command getAutoChoice()
+  {
+    return autoSelect.getSelected;
+  }*/
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
-  /*public Command getAutonomousCommand() {
+  public Command getAutonomousCommand() {
     switch(mAutoCommands) {
       case REDRIGHT:
         return redRight;
@@ -233,7 +264,7 @@ public class RobotContainer {
       default:
         return redRight;
     }
-  }*/
+  }
   /*public Command getAutCommand(){
     return autoSelect.getSelected();
   }*/
