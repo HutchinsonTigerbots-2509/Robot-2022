@@ -1,0 +1,155 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot;
+
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.Climb;
+import frc.robot.subsystems.Conveyor;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
+import frc.robot.RobotContainer;
+
+/**
+ * The VM is configured to automatically run this class, and to call the functions corresponding to
+ * each mode, as described in the TimedRobot documentation. If you change the name of this class or
+ * the package after creating this project, you must also update the build.gradle file in the
+ * project.
+ */
+
+
+public class Robot extends TimedRobot {
+
+  private Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
+
+  private Command m_autonomousCommand;
+  private RobotContainer mRobotContainer;
+
+  // ***** Subsystems ***** //
+  private Drivetrain sDrivetrain;
+  private Intake sIntake;
+  private Shooter sShooter;
+  private Conveyor sConveyor;
+  private Climb sClimb;
+
+  // ***** Joysticks ***** //
+  private Joystick stick;
+  private Joystick controller;
+
+  /**
+   * This function is run when the robot is first started up and should be used for any
+   * initialization code.
+   */
+  @Override
+  public void robotInit() {
+    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
+    // autonomous chooser on the dashboard.
+    mRobotContainer = new RobotContainer();
+
+    sDrivetrain = mRobotContainer.getDrivetrain();
+    sIntake = mRobotContainer.getIntake();
+    sShooter = mRobotContainer.getShooter();
+    sConveyor = mRobotContainer.getConveyor();
+    sClimb = mRobotContainer.getClimb();
+
+    stick = mRobotContainer.getStick();
+    controller = mRobotContainer.getController();
+  }
+
+  /**
+   * This function is called every robot packet, no matter the mode. Use this for items like
+   * diagnostics that you want ran during disabled, autonomous, teleoperated and test.
+   *
+   * <p>This runs after the mode specific periodic functions, but before LiveWindow and
+   * SmartDashboard integrated updating.
+   */
+  @Override
+  public void robotPeriodic() {
+    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
+    // commands, running already-scheduled commands, removing finished or interrupted commands,
+    // and running subsystem periodic() methods.  This must be called from the robot's periodic
+    // block in order for anything in the Command-based framework to work.
+    CommandScheduler.getInstance().run();
+  }
+
+  /** This function is called once each time the robot enters Disabled mode. */
+  @Override
+  public void disabledInit() {}
+
+  @Override
+  public void disabledPeriodic() {}
+
+  private long inches = 0;
+  private double forwardSpeed;
+  private double sidewaysSpeed = 0;
+  private double turnSpeed = 0;
+  private Timer timer = new Timer();
+  private double currentTime;
+  private double startTime;
+  private double time = 8;
+  /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
+  @Override
+  public void autonomousInit() {
+    currentTime = startTime = timer.getFPGATimestamp();
+
+    inches = 1;
+    forwardSpeed = .5;
+    time = 8;
+  }
+
+  /** This function is called periodically during autonomous. */
+  @Override
+  public void autonomousPeriodic() {
+    // SmartdashBoard
+    SmartDashboard.putNumber("Current", currentTime);
+    SmartDashboard.putNumber("Start", startTime);
+
+    if ((currentTime - startTime) < time) { //Change This from > to <
+      SmartDashboard.putBoolean("Got in the if statement", true);
+      sDrivetrain.drivetrain.driveCartesian(1, 0, 0);
+      //Drivetrain.dt.driveCartesian(ForwardSpeed, SidewaysSpeed, TurnSpeed);
+      currentTime = timer.getFPGATimestamp();
+      SmartDashboard.putNumber("CurrentTime", currentTime);
+    }
+    else {
+      sDrivetrain.drivetrain.driveCartesian(0, 0, 0);
+    }
+  }
+
+  @Override
+  public void teleopInit() {
+    // This makes sure that the autonomous stops running when
+    // teleop starts running. If you want the autonomous to
+    // continue until interrupted by another command, remove
+    // this line or comment it out.
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.cancel();
+    }
+  }
+
+  /** This function is called periodically during operator control. */
+  @Override
+  public void teleopPeriodic() {
+    sDrivetrain.MecDrive(controller);
+  }
+
+  @Override
+  public void testInit() {
+    // Cancels all running commands at the start of test mode.
+    CommandScheduler.getInstance().cancelAll();
+  }
+
+  /** This function is called periodically during test mode. */
+  @Override
+  public void testPeriodic() {}
+}
