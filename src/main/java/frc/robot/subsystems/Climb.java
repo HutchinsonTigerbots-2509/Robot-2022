@@ -21,7 +21,7 @@ public class Climb extends SubsystemBase {
   public DoubleSolenoid ClimbSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3);
   /** Creates a new Climb. */
   public Climb() {
-    ClimbSolenoid.set(Value.kReverse);
+    ClimbSolenoid.set(Value.kForward);
   }
 
   @Override
