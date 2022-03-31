@@ -74,7 +74,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void IntakeIn(double runnerSpeed){
-    if (LightSensor.getVoltage() > 0.4) {
+    if (LightSensor.getVoltage() > 0.1) {
       Intake.set(ControlMode.PercentOutput,runnerSpeed);
     } 
     else {
