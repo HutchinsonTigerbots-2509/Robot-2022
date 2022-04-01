@@ -23,8 +23,8 @@ public final class Constants {
     public final static int kFrontRightID = 1; // Verified that the Motor Ids were set to the correct values 3/19/22
     public final static int kRearLeftID = 15; // Verified that the Motor Ids were set to the correct values 3/19/22
     public final static int kRearRightID = 2; // Verified that the Motor Ids were set to the correct values 3/19/22
-    public final static double kHighSpeed = 0.6; // You are going to want to slow this down significantly, even for fast speed it is very high - S. Collins
-    public final static double kLowSpeed = 0.3;
+    public final static double kHighSpeed = 1; // You are going to want to slow this down significantly, even for fast speed it is very high - S. Collins
+    public final static double kLowSpeed = 0.4;
 
     // ***** Intake Constants ***** //
     public final static int kIntakeMotorID_0 = 11; //Motor ID for the front intake - S. COllins

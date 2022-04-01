@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -20,6 +21,7 @@ public class Drivetrain extends SubsystemBase {
   public WPI_TalonFX rearLeftMotor = new WPI_TalonFX(Constants.kRearLeftID);
 
   public MecanumDrive drivetrain = new MecanumDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
+
   
   private double speedValue = Constants.kHighSpeed;
 
@@ -49,6 +51,14 @@ public class Drivetrain extends SubsystemBase {
       stick.getRawAxis(Constants.kXboxLeftJoystickX) * speedValue,
       stick.getRawAxis(Constants.kXboxRightJoystickX) * speedValue
       );
+  }
+
+  public void AutoDrive(double xSpeed, double ySpeed, double zSpeed) {
+    drivetrain.driveCartesian(xSpeed, xSpeed, zSpeed);
+  }
+
+  public void StraightDrive(double xSpeed) {
+    frontRightMotor.set(ControlMode.PercentOutput, xSpeed);
   }
 
   public void GearDown() {

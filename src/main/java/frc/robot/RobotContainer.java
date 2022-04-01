@@ -65,8 +65,8 @@ public class RobotContainer {
 
   // ***** Nav X ***** //
   AHRS NavX;
-  float DisplacementX = NavX.getDisplacementX();
-  float DisplacementY = NavX.getDisplacementY();
+  //float DisplacementX = NavX.getDisplacementX();
+  //float DisplacementY = NavX.getDisplacementY();
   
   // ***** Subsystems ***** //
   private Drivetrain sDrivetrain = new Drivetrain();

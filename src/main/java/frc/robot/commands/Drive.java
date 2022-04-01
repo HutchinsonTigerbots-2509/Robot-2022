@@ -4,6 +4,9 @@
 
 package frc.robot.commands;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
@@ -13,11 +16,18 @@ public class Drive extends CommandBase {
   private double xSpeed, ySpeed, zSpeed;
 
   /** Creates a new Drive. */
+  // public Drive(Drivetrain pDt, double pSpeed) {
+  //   sDt = pDt;
+  //   xSpeed = pSpeed;
+  //   double ySpeed = 0;
+  //   double zSpeed = 0;
+    
+  //   addRequirements(sDt);
+  // }
+
   public Drive(Drivetrain pDt, double pSpeed) {
     sDt = pDt;
-    xSpeed = ySpeed = zSpeed = pSpeed;
-    
-    addRequirements(sDt);
+    xSpeed = pSpeed;
   }
 
   public Drive(Drivetrain pDt, double pxSpeed, double pySpeed, double pzSpeed) {
@@ -36,13 +46,13 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    sDt.drivetrain.driveCartesian(xSpeed, ySpeed, zSpeed);
+    sDt.StraightDrive(xSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    sDt.drivetrain.driveCartesian(0, 0, 0);
+    sDt.StraightDrive(0);
   }
 
   // Returns true when the command should end.
