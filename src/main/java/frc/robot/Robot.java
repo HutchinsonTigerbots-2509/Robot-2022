@@ -100,31 +100,15 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    currentTime = startTime = timer.getFPGATimestamp();
-
-    inches = 1;
-    forwardSpeed = .5;
-    time = 8;
+    m_autonomousCommand = mRobotContainer.getAutonomousCommand();
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.schedule();
+    }
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {
-    // SmartdashBoard
-    SmartDashboard.putNumber("Current", currentTime);
-    SmartDashboard.putNumber("Start", startTime);
-
-    if ((currentTime - startTime) < time) { //Change This from > to <
-      SmartDashboard.putBoolean("Got in the if statement", true);
-      sDrivetrain.drivetrain.driveCartesian(1, 0, 0);
-      //Drivetrain.dt.driveCartesian(ForwardSpeed, SidewaysSpeed, TurnSpeed);
-      currentTime = timer.getFPGATimestamp();
-      SmartDashboard.putNumber("CurrentTime", currentTime);
-    }
-    else {
-      sDrivetrain.drivetrain.driveCartesian(0, 0, 0);
-    }
-  }
+  public void autonomousPeriodic() {}
 
   @Override
   public void teleopInit() {

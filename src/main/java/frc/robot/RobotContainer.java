@@ -100,6 +100,7 @@ public class RobotContainer {
 
 
   private AutoCommands mAutoCommands; //= AutoCommands.REDRIGHT;
+  private AutoCommands mAutoCommands2 = AutoCommands.REDMIDDLE;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -202,9 +203,9 @@ public class RobotContainer {
   );
 
   private Command redMiddle = new SequentialCommandGroup(
-    new Pickup(sIntake).alongWith(new Drive(sDrivetrain, .6)).withTimeout(2),
-    new Shoot(sShooter, Constants.kShootingSpeed),
-    new RunConveyor(sIntake),
+    new Shoot(sShooter, .6),
+    new Pickup(sIntake).alongWith(new Drive(sDrivetrain, .5)).withTimeout(2),
+    new RunConveyor(sIntake).withTimeout(6),
     new ShootStop(sShooter)
   );
 
@@ -248,7 +249,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    switch(mAutoCommands) {
+    switch(mAutoCommands2) {
       case REDRIGHT:
         return redRight;
       case REDMIDDLE:
