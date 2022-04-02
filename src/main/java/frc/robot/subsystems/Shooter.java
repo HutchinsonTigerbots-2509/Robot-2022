@@ -33,6 +33,10 @@ public class Shooter extends SubsystemBase {
     shooterMotor.set(shootSpeed);
   }
 
+  public void Shoot(double shotSpeed) {
+    shooterMotor.set(shotSpeed);
+  }
+
   public void ShootStall() {
     shooterMotor.set(.4);
   }
