@@ -9,7 +9,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -32,17 +31,14 @@ public class Shooter extends SubsystemBase {
   public void Shoot() {
     //shooterMotor.set(SmartDashboard.getNumber("Shooter Speed", 0));
     shooterMotor.set(shootSpeed);
-    SmartDashboard.putBoolean("Shooting", true);
   }
 
   public void ShootStall() {
     shooterMotor.set(.4);
-    SmartDashboard.putBoolean("Shooting", false);
   }
 
   public void ShootStop() {
     shooterMotor.set(0);
-    SmartDashboard.putBoolean("Shooting", false);
   }
 
   public void ShootSpeed1() {

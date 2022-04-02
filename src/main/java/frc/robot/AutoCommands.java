@@ -4,5 +4,9 @@ public enum AutoCommands {
     RIGHT,
     MIDDLE,
     LEFT,
-    POTATO
+    DOUBLE,
+    POTATO,
+    FAR,
+    MIDDLEFAR,
+    RIGHTFAR
 }
