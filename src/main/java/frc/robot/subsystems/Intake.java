@@ -31,8 +31,6 @@ public class Intake extends SubsystemBase {
   public AnalogInput LightSensor = new AnalogInput(Constants.kLightSensor);
 
   public DoubleSolenoid IntakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
-
-  public double TimesRan = 0;
   
   
   //public WPI_TalonFX lift_1 = new WPI_TalonFX(Constants.kRearLeftID);
@@ -42,6 +40,10 @@ public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
   public Intake() {
     IntakeSolenoid.set(Value.kForward);
+  }
+
+  public void IntakeSetAuto() {
+    IntakeSolenoid.set(Value.kReverse);
   }
   
   @Override
@@ -95,8 +97,6 @@ public class Intake extends SubsystemBase {
 
   public void ToggleIntakeSolenoid() {
     IntakeSolenoid.toggle();
-    TimesRan = TimesRan + 1;
-    SmartDashboard.putNumber("Times ran", TimesRan);
     return;
   }
 

@@ -54,11 +54,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void AutoDrive(double xSpeed, double ySpeed, double zSpeed) {
-    drivetrain.driveCartesian(xSpeed, xSpeed, zSpeed);
-  }
-
-  public void StraightDrive(double xSpeed) {
-    frontRightMotor.set(ControlMode.PercentOutput, xSpeed);
+    drivetrain.driveCartesian(xSpeed, ySpeed, zSpeed);
   }
 
   public void GearDown() {

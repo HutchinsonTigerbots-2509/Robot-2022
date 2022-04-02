@@ -28,6 +28,8 @@ public class Drive extends CommandBase {
   public Drive(Drivetrain pDt, double pSpeed) {
     sDt = pDt;
     xSpeed = pSpeed;
+    ySpeed = 0;
+    zSpeed = 0;
   }
 
   public Drive(Drivetrain pDt, double pxSpeed, double pySpeed, double pzSpeed) {
@@ -46,13 +48,13 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    sDt.StraightDrive(xSpeed);
+    sDt.AutoDrive(xSpeed, ySpeed, zSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    sDt.StraightDrive(0);
+    sDt.AutoDrive(xSpeed, ySpeed, zSpeed);
   }
 
   // Returns true when the command should end.

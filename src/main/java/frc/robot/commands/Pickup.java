@@ -25,14 +25,12 @@ public class Pickup extends CommandBase {
   @Override
   public void execute() {
     sIntake.IntakeIn(.5);
-    sIntake.ToggleIntakeSolenoid();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     sIntake.IntakeOff();
-    sIntake.ToggleIntakeSolenoid();
   }
 
   // Returns true when the command should end.

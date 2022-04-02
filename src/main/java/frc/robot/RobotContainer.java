@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SelectCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -100,7 +101,7 @@ public class RobotContainer {
 
 
   private AutoCommands mAutoCommands; //= AutoCommands.REDRIGHT;
-  private AutoCommands mAutoCommands2 = AutoCommands.REDMIDDLE;
+  private AutoCommands mAutoCommands2 = AutoCommands.RIGHT;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -112,12 +113,12 @@ public class RobotContainer {
 
     SendableChooser<Command> autoSelect = new SendableChooser<>(); //Set up your 
 
-    autoSelect.setDefaultOption("RED_RIGHT", redRight);
-    autoSelect.addOption("RED_MIDDLE", redMiddle);
-    autoSelect.addOption("RED_LEFT", redLeft);
-    autoSelect.addOption("BLUE_RIGHT", blueRight);
-    autoSelect.addOption("BLUE_MIDDLE", blueMiddle);
-    autoSelect.addOption("BLUE_LEFt", blueLeft);
+    // autoSelect.setDefaultOption("RED_RIGHT", redRight);
+    // autoSelect.addOption("RED_MIDDLE", redMiddle);
+    // autoSelect.addOption("RED_LEFT", redLeft);
+    // autoSelect.addOption("BLUE_RIGHT", blueRight);
+    // autoSelect.addOption("BLUE_MIDDLE", blueMiddle);
+    // autoSelect.addOption("BLUE_LEFt", blueLeft);
 
     SmartDashboard.putData(autoSelect);
 
@@ -194,48 +195,36 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {}
 
-  private Command redRight = new SequentialCommandGroup(
-    new Pickup(sIntake).alongWith(new Drive(sDrivetrain, .6)).withTimeout(2),
-    new Shoot(sShooter, Constants.kShootingSpeed),
-    new RunConveyor(sIntake),
-    new ShootStop(sShooter)
-    
+  private Command Right = new SequentialCommandGroup(
+    new InstantCommand(() -> sShooter.Shoot()),
+    new InstantCommand(() -> sIntake.IntakeSetAuto()),
+    new InstantCommand(() -> sIntake.IntakeIn(.5)),
+    new Drive(sDrivetrain, .3).withTimeout(1.5),
+    new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(6),
+    new InstantCommand(() -> sIntake.IntakeOff()),
+    new InstantCommand(() -> sIntake.ConveyorStop()),
+    new InstantCommand(() -> sShooter.ShootStop())
   );
 
-  private Command redMiddle = new SequentialCommandGroup(
-    new Shoot(sShooter, .6),
-    new Pickup(sIntake).alongWith(new Drive(sDrivetrain, .5)).withTimeout(2),
-    new RunConveyor(sIntake).withTimeout(6),
-    new ShootStop(sShooter)
+  private Command Middle = new SequentialCommandGroup(
+    new InstantCommand(() -> sShooter.Shoot()),
+    new InstantCommand(() -> sIntake.IntakeSetAuto()),
+    new InstantCommand(() -> sIntake.IntakeIn(.5)),
+    new Drive(sDrivetrain, .3).withTimeout(1.5),
+    new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(6),
+    new InstantCommand(() -> sIntake.IntakeOff()),
+    new InstantCommand(() -> sIntake.ConveyorStop()),
+    new InstantCommand(() -> sShooter.ShootStop())
   );
 
-  private Command redLeft = new SequentialCommandGroup(
-    new Pickup(sIntake).alongWith(new Drive(sDrivetrain, .6)).withTimeout(2),
-    new Shoot(sShooter, Constants.kShootingSpeed),
-    new RunConveyor(sIntake),
-    new ShootStop(sShooter)
-  );
-
-  private Command blueRight = new SequentialCommandGroup(
-    //new Pickup(sIntake).alongWith(new Drive(sDrivetrain, .6)).until((DisplacementX > 20 || DisplacementX == 20)),
-    new Pickup(sIntake).alongWith(new Drive(sDrivetrain, .6)).withTimeout(2),
-    new RunConveyor(sIntake),
-    new Shoot(sShooter, Constants.kShootingSpeed),
-    new ShootStop(sShooter)
-  );
-
-  private Command blueMiddle = new SequentialCommandGroup(
-    new Pickup(sIntake).alongWith(new Drive(sDrivetrain, .6)).withTimeout(2),
-    new Shoot(sShooter, Constants.kShootingSpeed),
-    new RunConveyor(sIntake),
-    new ShootStop(sShooter)
-  );
-
-  private Command blueLeft = new SequentialCommandGroup(
-    new Pickup(sIntake).alongWith(new Drive(sDrivetrain, .6)).withTimeout(2),
-    new Shoot(sShooter, Constants.kShootingSpeed),
-    new RunConveyor(sIntake),
-    new ShootStop(sShooter)
+  private Command Left = new SequentialCommandGroup(
+    new InstantCommand(() -> sShooter.Shoot()),
+    new InstantCommand(() -> sIntake.ToggleIntakeSolenoid()),
+    new ParallelCommandGroup
+    (new Pickup(sIntake), new Drive(sDrivetrain, .3)).withTimeout(2),
+    new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(6),
+    new InstantCommand(() -> sIntake.ConveyorStop()),
+    new InstantCommand(() -> sShooter.ShootStop())
   );
 
   /*public Command getAutoChoice()
@@ -250,20 +239,14 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     switch(mAutoCommands2) {
-      case REDRIGHT:
-        return redRight;
-      case REDMIDDLE:
-        return redMiddle;
-      case REDLEFT:
-        return redLeft;
-      case BLUERIGHT:
-        return blueRight;
-      case BLUEMIDDLE:
-        return blueMiddle;
-      case BLUELEFT:
-        return blueLeft;
+      case RIGHT:
+        return Right;
+      case MIDDLE:
+        return Middle;
+      case LEFT:
+        return Left;
       default:
-        return redRight;
+        return Right;
     }
   }
   /*public Command getAutCommand(){

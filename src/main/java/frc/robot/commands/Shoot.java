@@ -27,6 +27,7 @@ public class Shoot extends CommandBase {
   @Override
   public void execute() {
     sShooter.Shoot();
+    
   }
 
   // Called once the command ends or is interrupted.
