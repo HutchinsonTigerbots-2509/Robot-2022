@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.Compressor;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -50,19 +51,8 @@ import edu.wpi.first.wpilibj.SPI;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // ***** Auto Selection ***** //
-  /*public enum AutoOption {
-    REDRIGHT,
-    REDMIDDLE,
-    REDLEFT,
-    BLUERIGHT,
-    BLUEMIDDLE,
-    BLUELEFT
-  }
-  //SendableChooser<AutoOption> autoSelect = new SendableChooser<>();
-  SendableChooser<Command> 
-  //SendableChooser<Command> = new SendableChooser<>();*/
-  //private SendableChooser autoSelect;
+  // ***** Select Auto ***** //
+  SendableChooser<Command> AutoSelect = new SendableChooser<>();
 
   // ***** Nav X ***** //
   AHRS NavX;
@@ -100,11 +90,79 @@ public class RobotContainer {
   private JoystickButton shootSpeedBtn4;
 
 
+
+
+  // ***** WHERE YOU SET WHICH AUTO ***** //
   private AutoCommands mAutoCommands; //= AutoCommands.REDRIGHT;
-  private AutoCommands mAutoCommands2 = AutoCommands.RIGHT;
+  private AutoCommands mAutoCommands2 = AutoCommands.POTATO;
+
+  private Command Left = new SequentialCommandGroup(
+    new InstantCommand(() -> sShooter.Shoot()),
+    new InstantCommand(() -> sIntake.IntakeSetAuto()),
+    new InstantCommand(() -> sIntake.IntakeIn(.5)),
+    new Drive(sDrivetrain, .3).withTimeout(1.25),
+    new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(6),
+    new InstantCommand(() -> sIntake.IntakeOff()),
+    new InstantCommand(() -> sIntake.ConveyorStop()),
+    new InstantCommand(() -> sShooter.ShootStop())
+  );
+
+  private Command Middle = new SequentialCommandGroup(
+    new InstantCommand(() -> sShooter.Shoot()),
+    new InstantCommand(() -> sIntake.IntakeSetAuto()),
+    new InstantCommand(() -> sIntake.IntakeIn(.5)),
+    new Drive(sDrivetrain, .3).withTimeout(1.5),
+    new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(6),
+    new InstantCommand(() -> sIntake.IntakeOff()),
+    new InstantCommand(() -> sIntake.ConveyorStop()),
+    new InstantCommand(() -> sShooter.ShootStop())
+  );
+
+  private Command Right = new SequentialCommandGroup(
+    new InstantCommand(() -> sShooter.Shoot()),
+    new InstantCommand(() -> sIntake.IntakeSetAuto()),
+    new InstantCommand(() -> sIntake.IntakeIn(.5)),
+    new Drive(sDrivetrain, .3).withTimeout(1),
+    new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(2),
+    new InstantCommand(() -> sIntake.ToggleIntakeSolenoid()), 
+    new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(4),
+    new InstantCommand(() -> sIntake.IntakeOff()),
+    new InstantCommand(() -> sIntake.ConveyorStop()),
+    new InstantCommand(() -> sShooter.ShootStop()),
+    new Drive(sDrivetrain, 0, 0, .3).withTimeout(1),
+    new Drive(sDrivetrain, 0, -.5, 0).withTimeout(.5)
+  );
+
+  private Command Potato = new SequentialCommandGroup(
+    new InstantCommand(() -> sShooter.Shoot()),
+    new Drive(sDrivetrain, .3).withTimeout(1.5),
+    new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(1),
+    new InstantCommand(() -> sIntake.ConveyorStop()),
+    new InstantCommand(() -> sShooter.ShootStop()),
+    new Drive(sDrivetrain, -.6).withTimeout(1)
+  );
+
+  private Command Double = new SequentialCommandGroup(
+    new InstantCommand(() -> sShooter.Shoot()),
+    new InstantCommand(() -> sIntake.IntakeSetAuto()),
+    new InstantCommand(() -> sIntake.IntakeIn(.5)),
+    new Drive(sDrivetrain, .3).withTimeout(1),
+    new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(2),
+    new InstantCommand(() -> sIntake.ToggleIntakeSolenoid()), 
+    new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(4),
+    new InstantCommand(() -> sIntake.IntakeOff()),
+    new InstantCommand(() -> sIntake.ConveyorStop()),
+    new InstantCommand(() -> sShooter.ShootStop()),
+    new Drive(sDrivetrain, 0, 0, .2).withTimeout(1),
+    new Drive(sDrivetrain, 0, .5, 0).withTimeout(1)
+  );
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
+    AutoSelect.setDefaultOption("Left", Left);
+    AutoSelect.addOption("Middle", Middle);
+    AutoSelect.addOption("Right", Right);
 
     try 
       {NavX = new AHRS(SPI.Port.kMXP);}
@@ -195,38 +253,6 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {}
 
-  private Command Right = new SequentialCommandGroup(
-    new InstantCommand(() -> sShooter.Shoot()),
-    new InstantCommand(() -> sIntake.IntakeSetAuto()),
-    new InstantCommand(() -> sIntake.IntakeIn(.5)),
-    new Drive(sDrivetrain, .3).withTimeout(1.5),
-    new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(6),
-    new InstantCommand(() -> sIntake.IntakeOff()),
-    new InstantCommand(() -> sIntake.ConveyorStop()),
-    new InstantCommand(() -> sShooter.ShootStop())
-  );
-
-  private Command Middle = new SequentialCommandGroup(
-    new InstantCommand(() -> sShooter.Shoot()),
-    new InstantCommand(() -> sIntake.IntakeSetAuto()),
-    new InstantCommand(() -> sIntake.IntakeIn(.5)),
-    new Drive(sDrivetrain, .3).withTimeout(1.5),
-    new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(6),
-    new InstantCommand(() -> sIntake.IntakeOff()),
-    new InstantCommand(() -> sIntake.ConveyorStop()),
-    new InstantCommand(() -> sShooter.ShootStop())
-  );
-
-  private Command Left = new SequentialCommandGroup(
-    new InstantCommand(() -> sShooter.Shoot()),
-    new InstantCommand(() -> sIntake.ToggleIntakeSolenoid()),
-    new ParallelCommandGroup
-    (new Pickup(sIntake), new Drive(sDrivetrain, .3)).withTimeout(2),
-    new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(6),
-    new InstantCommand(() -> sIntake.ConveyorStop()),
-    new InstantCommand(() -> sShooter.ShootStop())
-  );
-
   /*public Command getAutoChoice()
   {
     return autoSelect.getSelected;
@@ -245,6 +271,8 @@ public class RobotContainer {
         return Middle;
       case LEFT:
         return Left;
+      case POTATO:
+        return Potato;
       default:
         return Right;
     }

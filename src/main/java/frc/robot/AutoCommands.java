@@ -3,5 +3,6 @@ package frc.robot;
 public enum AutoCommands {
     RIGHT,
     MIDDLE,
-    LEFT
+    LEFT,
+    POTATO
 }
