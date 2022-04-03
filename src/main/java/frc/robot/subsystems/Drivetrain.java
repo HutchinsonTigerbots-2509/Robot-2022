@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -15,23 +14,29 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Drivetrain extends SubsystemBase {
+
+  // ***** Setting up Motors ***** //
   public WPI_TalonFX frontRightMotor = new WPI_TalonFX(Constants.kFrontRightID);
   public WPI_TalonFX frontLeftMotor = new WPI_TalonFX(Constants.kFrontLeftID);
   public WPI_TalonFX rearRightMotor = new WPI_TalonFX(Constants.kRearRightID);
   public WPI_TalonFX rearLeftMotor = new WPI_TalonFX(Constants.kRearLeftID);
 
+  //Putting all the motors into a Drivetrain
   public MecanumDrive drivetrain = new MecanumDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
 
-  
+  //Setting the start gear to highgear
   private double speedValue = Constants.kHighSpeed;
 
   /** Creates a new Drivetrain. */
   public Drivetrain() {
+
+    // ***** Inverts all the motors that need to be inverted ***** //
     frontRightMotor.setInverted(false);
     frontLeftMotor.setInverted(true);
     rearRightMotor.setInverted(false);
     rearLeftMotor.setInverted(true);
 
+    // ***** Sets the motors to break when at 0 ***** //
     frontRightMotor.setNeutralMode(NeutralMode.Brake);
     frontLeftMotor.setNeutralMode(NeutralMode.Brake);
     rearRightMotor.setNeutralMode(NeutralMode.Brake);
@@ -46,6 +51,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void MecDrive(Joystick stick) {
+    //Runs the Drivetrain with driveCartesian with the values of the stick on the controller
     drivetrain.driveCartesian(
       -stick.getRawAxis(Constants.kXboxLeftJoystickY) * speedValue,
       stick.getRawAxis(Constants.kXboxLeftJoystickX) * speedValue,
@@ -54,10 +60,13 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void AutoDrive(double xSpeed, double ySpeed, double zSpeed) {
+    //Drives the autonomous with the speed put into the AutoDrive
     drivetrain.driveCartesian(xSpeed, ySpeed, zSpeed);
   }
 
   public void GearDown() {
+
+    //Puts the gear down to be able to slow down driving
     speedValue = Constants.kLowSpeed;
     SmartDashboard.putString("Gear", "Low");
     return;
@@ -65,6 +74,8 @@ public class Drivetrain extends SubsystemBase {
   
 
   public void GearUp() {
+
+    //Puts the gear up to be able to speed up driving
     speedValue = Constants.kHighSpeed;
     SmartDashboard.putString("Gear", "High");
     return;

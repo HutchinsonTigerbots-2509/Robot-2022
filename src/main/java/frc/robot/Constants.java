@@ -22,7 +22,7 @@ public final class Constants {
     public final static int kFrontLeftID = 14; // Verified that the Motor Ids were set to the correct values 3/19/22
     public final static int kFrontRightID = 1; // Verified that the Motor Ids were set to the correct values 3/19/22
     public final static int kRearLeftID = 15; // Verified that the Motor Ids were set to the correct values 3/19/22
-    public final static int kRearRightID = 2; // Verified that the Motor Ids were set to the correct values 3/19/22
+    public final static int kRearRightID = 0; // Verified that the Motor Ids were set to the correct values 3/19/22
     public final static double kHighSpeed = 1; // You are going to want to slow this down significantly, even for fast speed it is very high - S. Collins
     public final static double kLowSpeed = 0.4;
 
@@ -44,7 +44,7 @@ public final class Constants {
     public final static int kLightSensor = 1;
 
     // ***** Climb Constants ***** //
-    public final static int kClimberMotorID = 3;
+    public final static int kClimberMotorID = 2;
 
 
     //#region ***** Vision Constants ***** //

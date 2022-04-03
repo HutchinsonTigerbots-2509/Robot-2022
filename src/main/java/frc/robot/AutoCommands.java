@@ -6,7 +6,6 @@ public enum AutoCommands {
     LEFT,
     DOUBLE,
     POTATO,
-    FAR,
     MIDDLEFAR,
-    RIGHTFAR
+    DOUBLEFAR
 }

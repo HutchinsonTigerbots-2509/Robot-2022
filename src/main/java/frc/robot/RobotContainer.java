@@ -33,9 +33,6 @@ import frc.robot.subsystems.Shooter;
 
 import com.kauailabs.navx.frc.AHRS;
 
-import org.opencv.features2d.FastFeatureDetector;
-
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SPI;
 
 //import frc.robot.AutoCommands;
@@ -83,14 +80,12 @@ public class RobotContainer {
   private JoystickButton shootSpeedBtn1;
   private JoystickButton shootSpeedBtn2;
   private JoystickButton shootSpeedBtn3;
-  private JoystickButton shootSpeedBtn4;
 
 
 
 
   // ***** WHERE YOU SET WHICH AUTO ***** //
-  private AutoCommands mAutoCommands; //= AutoCommands.REDRIGHT;
-  private AutoCommands mAutoCommands2 = AutoCommands.DOUBLE;
+  private AutoCommands mAutoCommands2 = AutoCommands.MIDDLEFAR;
 
   private Command Left = new SequentialCommandGroup(
     new InstantCommand(() -> sShooter.Shoot()), //Starts Shooter
@@ -139,13 +134,14 @@ public class RobotContainer {
   );
 
   private Command Double = new SequentialCommandGroup(
-    new InstantCommand(() -> sShooter.Shoot(.55)), //Starts Shooter
+    new InstantCommand(() -> sShooter.Shoot(.6)), //Starts Shooter
     new InstantCommand(() -> sIntake.IntakeSetAuto()), //Puts Intake Down
     new InstantCommand(() -> sIntake.IntakeIn(.5)), //Starts The Intake
     new Drive(sDrivetrain, .3).withTimeout(1), //Drives Forward Stops With Command
-    new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(2), //Run Conveyor Into Shooter Stops With Command
+    new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(1), //Run Conveyor Into Shooter Stops With Command
     new InstantCommand(() -> sIntake.ToggleIntakeSolenoid()), //Pulls Up Intake
     new InstantCommand(() -> sIntake.IntakeOff()), //Turns Off Intake
+    new InstantCommand(() -> sShooter.Shoot(.55)), //Slows Shooter
     new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(2), //Runs Conveyor Into Shooter Stops With 
     new InstantCommand(() -> sIntake.ConveyorStop()), //Stops Conveyor
     new Drive(sDrivetrain, 0, 0, .4).withTimeout(.80), //Drives Turnings Stops With Command
@@ -160,36 +156,33 @@ public class RobotContainer {
     new InstantCommand(() -> sShooter.ShootStop()) //Stops Shooter
   );
 
-  private Command Far = new SequentialCommandGroup(
-    new InstantCommand(() -> sShooter.Shoot()), //Starts Shooter
-    new InstantCommand(() -> sIntake.IntakeSetAuto()), //Puts Intake Down
-    new InstantCommand(() -> sIntake.IntakeIn(.5)), //Starts The Intake
-    new Drive(sDrivetrain, .3).withTimeout(1.25), //Drives Forward Stops With Command
-    new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(6), //Run Conveyor Into Shooter Stops With Command
-    new InstantCommand(() -> sIntake.ConveyorStop()), //Stops Conveyor
-    new InstantCommand(() -> sIntake.IntakeOff()), //Turns Off Intake
-    new InstantCommand(() -> sShooter.ShootStop()) //Stops Shooter
-  );
-
   private Command MiddleFar = new SequentialCommandGroup(
     new InstantCommand(() -> sShooter.Shoot()), //Starts Shooter
     new InstantCommand(() -> sIntake.IntakeSetAuto()), //Puts Intake Down
     new InstantCommand(() -> sIntake.IntakeIn(.5)), //Starts The Intake
     new Drive(sDrivetrain, .3).withTimeout(1), //Drives Forward Stops With Command
+    new Drive(sDrivetrain, 0, 0, -.3).withTimeout(.20), //Drives Turnings Stops With Command
     new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(2), //Run Conveyor Into Shooter Stops With Command
     new InstantCommand(() -> sIntake.ToggleIntakeSolenoid()), //Pulls Up Intake
     new InstantCommand(() -> sIntake.IntakeOff()), //Turns Off Intake
+    new InstantCommand(() -> sShooter.Shoot(.55)), //Slows Shooter
     new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(2), //Runs Conveyor Into Shooter Stops With Command
     new InstantCommand(() -> sIntake.ConveyorStop()), //Stops Conveyor
-    new Drive(sDrivetrain, 0, 0, .4).withTimeout(1), //Drives Turnings Stops With Command
+    new Drive(sDrivetrain, 0, 0, .2).withTimeout(.45), //Drives Turnings Stops With Command
     new InstantCommand(() -> sIntake.ToggleIntakeSolenoid()), //Puts Down Intake
     new InstantCommand(() -> sIntake.IntakeIn(.5)), //Turns On Intake
-    new Drive(sDrivetrain, .3).withTimeout(2), //Drives Forward Stops With Command
+    new Drive(sDrivetrain, .6).withTimeout(1.5), //Drives Forward Stops With Command
+    new Drive(sDrivetrain, .2, .4, -.1).withTimeout(.8), //Drives Forward Stops With Command
+    new Drive(sDrivetrain, .3).withTimeout(.7),
+    new Drive(sDrivetrain, -.3).withTimeout(.7),
+    new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(2), //Runs Conveyor Into Shooter Stops With Command
+    new InstantCommand(() -> sIntake.IntakeOff()), //Turns Off Intake
+    new InstantCommand(() -> sIntake.ConveyorStop()), //Stops Conveyor
     new InstantCommand(() -> sIntake.IntakeOff()), //Turns Off Intake
     new InstantCommand(() -> sShooter.ShootStop()) //Stops Shooter
   );
 
-  private Command RightFar = new SequentialCommandGroup(
+  private Command DoubleFar = new SequentialCommandGroup(
     new InstantCommand(() -> sShooter.Shoot()), //Starts Shooter
     new InstantCommand(() -> sIntake.IntakeSetAuto()), //Puts Intake Down
     new InstantCommand(() -> sIntake.IntakeIn(.5)), //Starts The Intake
@@ -270,9 +263,6 @@ public class RobotContainer {
     shootSpeedBtn3 = new JoystickButton(stick, Constants.kJoystickButton9);
     shootSpeedBtn3.whenPressed(new InstantCommand(() -> sShooter.ShootSpeed3()));
 
-    shootSpeedBtn4 = new JoystickButton(stick, Constants.kJoystickButton10);
-    shootSpeedBtn4.whenPressed(new InstantCommand(() -> sShooter.ShootSpeed4()));
-
     gearUpBtn = new JoystickButton(controller, Constants.kXboxButtonY);
     gearUpBtn.whenPressed(new InstantCommand(() -> sDrivetrain.GearUp()));
 
@@ -325,12 +315,10 @@ public class RobotContainer {
         return Potato;
       case DOUBLE:
         return Double;
-      case FAR:
-        return Far;
       case MIDDLEFAR:
         return MiddleFar;
-      case RIGHTFAR:
-        return RightFar;
+      case DOUBLEFAR:
+        return DoubleFar;
       default:
         return Right;
     }
