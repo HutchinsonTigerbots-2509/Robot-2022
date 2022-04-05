@@ -84,9 +84,16 @@ public class RobotContainer {
 
 
 
-  // ***** WHERE YOU SET WHICH AUTO ***** //
+                                                              // ***** WHERE YOU SET WHICH AUTO ***** //
+
+
   private AutoCommands mAutoCommands2 = AutoCommands.MIDDLEFAR;
 
+
+
+
+
+  
   private Command Left = new SequentialCommandGroup(
     new InstantCommand(() -> sShooter.Shoot()), //Starts Shooter
     new InstantCommand(() -> sIntake.IntakeSetAuto()), //Puts Intake Down

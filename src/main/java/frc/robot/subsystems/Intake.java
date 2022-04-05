@@ -25,7 +25,6 @@ public class Intake extends SubsystemBase {
   public WPI_TalonFX Conveyor = new WPI_TalonFX(Constants.kIntakeMotorID_0);
   public AnalogInput LightSensor = new AnalogInput(Constants.kLightSensor);
   public DoubleSolenoid IntakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
-  public boolean LightSensorValue = false;
 
   /** Creates a new Intake. */
   public Intake() {
@@ -71,10 +70,11 @@ public class Intake extends SubsystemBase {
   public void IntakeIn(){
     if (LightSensor.getVoltage() < .2) {
       Intake.set(ControlMode.PercentOutput,.6);
+      Conveyor.set(ControlMode.PercentOutput, 0);
     } 
     if (LightSensor.getVoltage() >= .2) {
       Intake.set(ControlMode.PercentOutput,.6);
-      ConveyorIn(0.5);
+      Conveyor.set(ControlMode.PercentOutput, -.6);
     }
   }
 
