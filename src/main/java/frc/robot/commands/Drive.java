@@ -13,8 +13,8 @@ public class Drive extends CommandBase {
   private Drivetrain sDt;
   private double xSpeed, ySpeed, zSpeed;
 
+  /** Is called and inputs the variables to set them to forward speed and drivetrain */
   public Drive(Drivetrain pDt, double pSpeed) {
-    //Is called and inputs the variables to set them to forward speed and the drivetrain
     sDt = pDt;
     xSpeed = pSpeed;
     ySpeed = 0;
@@ -23,8 +23,8 @@ public class Drive extends CommandBase {
     addRequirements(sDt);
   }
 
+  /** Is called and inputs the variables to set them to all directions and the drivetrain */
   public Drive(Drivetrain pDt, double pxSpeed, double pySpeed, double pzSpeed) {
-    //Is called and inputs the variables to set them to all directions and the drivetrain
     sDt = pDt;
     xSpeed = pxSpeed;
     ySpeed = pySpeed;

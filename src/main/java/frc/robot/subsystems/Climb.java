@@ -33,27 +33,23 @@ public class Climb extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
+  /** Starts the Climber Motor to go upward when called */
   public void ClimbUp() {
-
-    //Starts the Climber Motor to go upward when called
     Climber.set(ControlMode.PercentOutput, 1);
   }
 
+  /** Starts the Climber Motor to go downward when called */
   public void ClimbDown() {
-
-    //Starts the Climber Motor to go downward when called
     Climber.set(ControlMode.PercentOutput, -1);
   }
 
+  /** Turns off the climber will run when needed to stop */
   public void ClimbStop() {
-    
-    //Turns off the climber will run when needed to stop
     Climber.set(ControlMode.PercentOutput, 0);
   }
 
+  /** Toggles the ClimbSolenoid to be able to move the climber back and forth */
   public void ClimbSolenoidToggle() {
-
-    //Causes the climber to move back and forth with the button will only work if set to a direct beforehand
     ClimbSolenoid.toggle();
   }
 }

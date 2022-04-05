@@ -103,6 +103,7 @@ public class RobotContainer {
     new InstantCommand(() -> sIntake.IntakeSetAuto()), //Puts Intake Down
     new InstantCommand(() -> sIntake.IntakeIn(.5)), //Starts The Intake
     new Drive(sDrivetrain, .3).withTimeout(1.5), //Drives Forward Stops With Command
+    new Drive(sDrivetrain, 0, 0, -.3).withTimeout(.10), //Drives Turnings Stops With Command
     new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(6), //Run Conveyor Into Shooter Stops With Command
     new InstantCommand(() -> sIntake.ConveyorStop()), //Stops Conveyor
     new InstantCommand(() -> sIntake.IntakeOff()), //Turns Off Intake
@@ -173,9 +174,11 @@ public class RobotContainer {
     new InstantCommand(() -> sIntake.IntakeIn(.5)), //Turns On Intake
     new Drive(sDrivetrain, .6).withTimeout(1.5), //Drives Forward Stops With Command
     new Drive(sDrivetrain, .2, .4, -.1).withTimeout(.8), //Drives Forward Stops With Command
+    new InstantCommand(() -> sShooter.Shoot(.75)), //Starts Shooter
     new Drive(sDrivetrain, .3).withTimeout(.7),
     new Drive(sDrivetrain, -.3).withTimeout(.7),
-    new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(2), //Runs Conveyor Into Shooter Stops With Command
+    new Drive(sDrivetrain, 0, 0, .3).withTimeout(.2), //Drives Turnings Stops With Command
+    new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(3), //Runs Conveyor Into Shooter Stops With Command
     new InstantCommand(() -> sIntake.IntakeOff()), //Turns Off Intake
     new InstantCommand(() -> sIntake.ConveyorStop()), //Stops Conveyor
     new InstantCommand(() -> sIntake.IntakeOff()), //Turns Off Intake
@@ -239,7 +242,7 @@ public class RobotContainer {
     conveyorOutBtn.whenReleased(new InstantCommand(() -> sIntake.ConveyorStop()));
 
     intakeBtn = new JoystickButton(controller, Constants.kXboxLeftBumper);
-    intakeBtn.whileHeld(new RunCommand(() -> sIntake.IntakeIn(Constants.kIntakeSpeed)));
+    intakeBtn.whileHeld(new RunCommand(() -> sIntake.IntakeIn()));
     intakeBtn.whenReleased(new RunCommand(() -> sIntake.IntakeOff()));
     intakeBtn.whenReleased(new InstantCommand(() -> sIntake.ConveyorStop()));
 

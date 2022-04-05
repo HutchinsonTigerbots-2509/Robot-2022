@@ -28,39 +28,47 @@ public class Shooter extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
+  /** Starts up the shooter with the button its set to */
   public void Shoot() {
-    //shooterMotor.set(SmartDashboard.getNumber("Shooter Speed", 0));
     shooterMotor.set(shootSpeed);
   }
 
+  /** Starts up the shooter with the number called */
   public void Shoot(double shotSpeed) {
     shooterMotor.set(shotSpeed);
   }
 
+  /** Stalls the shooter */
   public void ShootStall() {
     shooterMotor.set(.4);
   }
 
+  /** Stops the shooter in emergency */
   public void ShootStop() {
     shooterMotor.set(0);
   }
 
+  /** Sets the shot from right next to it (lowest) */
   public void ShootSpeed1() {
     shootSpeed = .4;
   }
 
+  /** Sets the shot from mid field (2nd to lowest) */
   public void ShootSpeed2() {
     shootSpeed = .6;
   }
 
+  /** Sets the Shot from our save zone (3rd to lowest) */
   public void ShootSpeed3() {
     shootSpeed = .7;
   }
 
+  /** Sets the shot from back field (4th to lowest) */
   public void ShootSpeed4() {
     shootSpeed = .9;
   }
 
+  /** Change the shot distance with a plate (Not used anymore) */
   public void FlapOut() {
     if (shooterDistance.get() < .5)
       flapperMotor.set(-.35);
@@ -68,6 +76,7 @@ public class Shooter extends SubsystemBase {
       FlapStop();
   }
 
+  /** Change the shot distance with a plate (Not used anymore) */
   public void FlapIn() {
     if (shooterDistance.get() > .4)
       flapperMotor.set(.35);
@@ -75,18 +84,20 @@ public class Shooter extends SubsystemBase {
       FlapStop();
   }
 
+  /** Stops the flapper (Not used anymore) */
   public void FlapStop() {
     flapperMotor.set(0);
   }
 
-public void FlapPosition() {
-  if (shooterDistance.get() > flapGoalPosition)
-    flapperMotor.set(.35);
-  else
-    if (shooterDistance.get() < flapGoalPosition)
-      flapperMotor.set(-.35);
+  /** Used incoders to put flaper to a position (Not used anymore) */
+  public void FlapPosition() {
+    if (shooterDistance.get() > flapGoalPosition)
+      flapperMotor.set(.35);
     else
-      FlapStop();
+      if (shooterDistance.get() < flapGoalPosition)
+        flapperMotor.set(-.35);
+      else
+        FlapStop();
 }
   
 }

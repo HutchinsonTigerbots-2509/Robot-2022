@@ -10,9 +10,13 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.AnalogAccelerometer;
+import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.AnalogTriggerOutput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Intake extends SubsystemBase {
 
@@ -21,16 +25,18 @@ public class Intake extends SubsystemBase {
   public WPI_TalonFX Conveyor = new WPI_TalonFX(Constants.kIntakeMotorID_0);
   public AnalogInput LightSensor = new AnalogInput(Constants.kLightSensor);
   public DoubleSolenoid IntakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
+  public boolean LightSensorValue = false;
 
   /** Creates a new Intake. */
   public Intake() {
 
     //Sets the defult solenoid for the Intakes
     IntakeSolenoid.set(Value.kForward);
+    LightSensor.resetAccumulator();
   }
 
+  /** Sets the default solenoid in the auto */
   public void IntakeSetAuto() {
-    //Sets the default solenoid in the auto
     IntakeSolenoid.set(Value.kReverse);
   }
   
@@ -42,58 +48,55 @@ public class Intake extends SubsystemBase {
 /* When you set TalonFX motor controllers and VictorSRX motor controllers, you set them with the
   .set(controlMode, value). The control mode you will want for a constant running speed is ControlMode.PercentOutput.
 */
-  public void ConveyorIn(double speed) {
 
-    //Moves the Conveyor in to push the ball into the shooter
+  /** Moves the Conveyor in to push the ball into the shooter */
+  public void ConveyorIn(double speed) {
     Conveyor.set(ControlMode.PercentOutput, -speed);
     return;
   }
 
+  /** Moves the Conveyor out to push the ball out incase of ball getting stuck */
   public void ConveyorOut(double speed) {
-
-    //Moves the Conveyor out to push the ball out incase of ball getting stuck
     Conveyor.set(ControlMode.PercentOutput, speed);
     return;
   }
   
+  /** Stops the Conveyor */
   public void ConveyorStop() {
-
-    //Stops the Conveyor
     Conveyor.set(ControlMode.PercentOutput, 0);
     return;
   }
 
-  public void IntakeIn(double intakeSpeed){
-
-    //Makes the intake to pull the balls into the system
-    if (LightSensor.getVoltage() < 0.5) {
-      Intake.set(ControlMode.PercentOutput,intakeSpeed);
+  /** Moves the Intake so that the ball gets into the Conveyor */
+  public void IntakeIn(){
+    if (LightSensor.getVoltage() < .2) {
+      Intake.set(ControlMode.PercentOutput,.6);
     } 
-    else {
-      Intake.set(ControlMode.PercentOutput,intakeSpeed);
+    if (LightSensor.getVoltage() >= .2) {
+      Intake.set(ControlMode.PercentOutput,.6);
       ConveyorIn(0.5);
     }
-    return;
   }
 
-  public void IntakeOut(double runnerSpeed){
+  public void IntakeIn(double intakeSpeed){
+      Intake.set(ControlMode.PercentOutput, intakeSpeed);
+  }
 
-    //Moves the Intake out if ball is stuck
+  /** Moves the Intake out if ball is stuck */
+  public void IntakeOut(double runnerSpeed){
     Intake.set(ControlMode.PercentOutput,runnerSpeed);
   }
 
+  /** Turns off Intake */
   public void IntakeOff(){
-
-    //Turns off intake
     Intake.set(ControlMode.PercentOutput,0);
     return;
   }
 
+  /** Toggles the Intake Solenoid to lift or drop*/
   public void ToggleIntakeSolenoid() {
-
-    //Toggles the Intake Solenoid
     IntakeSolenoid.toggle();
     return;
   }
-
+  
 }

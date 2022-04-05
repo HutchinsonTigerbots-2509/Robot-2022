@@ -50,8 +50,8 @@ public class Drivetrain extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
+  /** Runs the Drivetrain with driveCartesian with the values of the stick on the controller */
   public void MecDrive(Joystick stick) {
-    //Runs the Drivetrain with driveCartesian with the values of the stick on the controller
     drivetrain.driveCartesian(
       -stick.getRawAxis(Constants.kXboxLeftJoystickY) * speedValue,
       stick.getRawAxis(Constants.kXboxLeftJoystickX) * speedValue,
@@ -59,23 +59,20 @@ public class Drivetrain extends SubsystemBase {
       );
   }
 
+  /** Drives the autonomous with the speed put into the AutoDrive */
   public void AutoDrive(double xSpeed, double ySpeed, double zSpeed) {
-    //Drives the autonomous with the speed put into the AutoDrive
     drivetrain.driveCartesian(xSpeed, ySpeed, zSpeed);
   }
 
+  /** Puts the gear down to be able to slow down driving */
   public void GearDown() {
-
-    //Puts the gear down to be able to slow down driving
     speedValue = Constants.kLowSpeed;
     SmartDashboard.putString("Gear", "Low");
     return;
   }
   
-
+  /** Puts the gear up to be able speed up driving */
   public void GearUp() {
-
-    //Puts the gear up to be able to speed up driving
     speedValue = Constants.kHighSpeed;
     SmartDashboard.putString("Gear", "High");
     return;
