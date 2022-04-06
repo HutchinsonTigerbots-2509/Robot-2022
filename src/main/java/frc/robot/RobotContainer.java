@@ -87,13 +87,13 @@ public class RobotContainer {
                                                               // ***** WHERE YOU SET WHICH AUTO ***** //
 
 
-  private AutoCommands mAutoCommands2 = AutoCommands.MIDDLEFAR;
+  private AutoCommands mAutoCommands2 = AutoCommands.RIGHT2;
 
 
 
 
 
-  
+
   private Command Left = new SequentialCommandGroup(
     new InstantCommand(() -> sShooter.Shoot()), //Starts Shooter
     new InstantCommand(() -> sIntake.IntakeSetAuto()), //Puts Intake Down
@@ -315,20 +315,18 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     switch(mAutoCommands2) {
-      case RIGHT:
+      case RIGHT2:
         return Right;
-      case MIDDLE:
+      case MIDDLE2:
         return Middle;
-      case LEFT:
+      case LEFT2:
         return Left;
       case POTATO:
         return Potato;
-      case DOUBLE:
+      case RIGHT3:
         return Double;
-      case MIDDLEFAR:
+      case MIDDLE4:
         return MiddleFar;
-      case DOUBLEFAR:
-        return DoubleFar;
       default:
         return Right;
     }
