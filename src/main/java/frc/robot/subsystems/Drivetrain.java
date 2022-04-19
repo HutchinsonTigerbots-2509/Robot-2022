@@ -67,14 +67,12 @@ public class Drivetrain extends SubsystemBase {
   /** Puts the gear down to be able to slow down driving */
   public void GearDown() {
     speedValue = Constants.kLowSpeed;
-    SmartDashboard.putString("Gear", "Low");
     return;
   }
   
   /** Puts the gear up to be able speed up driving */
   public void GearUp() {
     speedValue = Constants.kHighSpeed;
-    SmartDashboard.putString("Gear", "High");
     return;
   }
 

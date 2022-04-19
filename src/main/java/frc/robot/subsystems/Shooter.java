@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -30,6 +31,7 @@ public class Shooter extends SubsystemBase {
 
   /** Starts up the shooter with the button its set to */
   public void Shoot() {
+    SmartDashboard.putNumber("Shooter Voltage", shooterMotor.getBusVoltage());
     shooterMotor.set(shootSpeed);
   }
 
@@ -40,7 +42,8 @@ public class Shooter extends SubsystemBase {
 
   /** Stalls the shooter */
   public void ShootStall() {
-    shooterMotor.set(.4);
+    SmartDashboard.putNumber("Shooter Voltage", shooterMotor.getBusVoltage());
+    shooterMotor.set(.35);
   }
 
   /** Stops the shooter in emergency */
@@ -50,7 +53,7 @@ public class Shooter extends SubsystemBase {
 
   /** Sets the shot from right next to it (lowest) */
   public void ShootSpeed1() {
-    shootSpeed = .4;
+    shootSpeed = .35;
   }
 
   /** Sets the shot from mid field (2nd to lowest) */
