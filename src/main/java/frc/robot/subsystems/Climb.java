@@ -17,7 +17,7 @@ public class Climb extends SubsystemBase {
   public WPI_TalonFX Climber = new WPI_TalonFX(Constants.kClimberMotorID);
   
 
-  public DoubleSolenoid ClimbSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3);
+  public DoubleSolenoid ClimbSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
   /** Creates a new Climb. */
   public Climb() {
 

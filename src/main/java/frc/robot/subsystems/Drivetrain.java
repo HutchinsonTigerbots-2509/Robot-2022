@@ -58,6 +58,14 @@ public class Drivetrain extends SubsystemBase {
       stick.getRawAxis(Constants.kXboxRightJoystickX) * speedValue
       );
   }
+  
+  public void TeleMecDrive(double y, double x, double z) {
+    drivetrain.driveCartesian(
+      y * speedValue,
+      x * speedValue,
+      z * speedValue
+      );
+  }
 
   /** Drives the autonomous with the speed put into the AutoDrive */
   public void AutoDrive(double xSpeed, double ySpeed, double zSpeed) {
@@ -75,5 +83,9 @@ public class Drivetrain extends SubsystemBase {
     speedValue = Constants.kHighSpeed;
     return;
   }
+
+public double GetSpeedValue() {
+    return 0;
+}
 
 }

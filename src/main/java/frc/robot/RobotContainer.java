@@ -24,12 +24,14 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.commands.Drive;
-
+import frc.robot.commands.DriveTele;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+
+import java.util.ResourceBundle.Control;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -218,6 +220,8 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
+    sDrivetrain.setDefaultCommand(new DriveTele(controller, sDrivetrain));
+
     AutoSelect.setDefaultOption("Right3", Double);
     AutoSelect.addOption("Middle2", Middle);
     AutoSelect.addOption("Right2", Right);
@@ -231,8 +235,6 @@ public class RobotContainer {
     // catch (RuntimeException ex ) 
     //   {DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);}
 
-    SendableChooser<Command> autoSelect = new SendableChooser<>(); //Set up your 
-
     // autoSelect.setDefaultOption("RED_RIGHT", redRight);
     // autoSelect.addOption("RED_MIDDLE", redMiddle);
     // autoSelect.addOption("RED_LEFT", redLeft);
@@ -240,7 +242,7 @@ public class RobotContainer {
     // autoSelect.addOption("BLUE_MIDDLE", blueMiddle);
     // autoSelect.addOption("BLUE_LEFt", blueLeft);
 
-    SmartDashboard.putData(autoSelect);
+    SmartDashboard.putData(AutoSelect);
 
     /*public Command getAutoCommand(){
       return autoSelect.getSelected();

@@ -24,7 +24,7 @@ public class Intake extends SubsystemBase {
   public WPI_VictorSPX Intake = new WPI_VictorSPX(Constants.kIntakeMotorID_1); 
   public WPI_TalonFX Conveyor = new WPI_TalonFX(Constants.kIntakeMotorID_0);
   public AnalogInput LightSensor = new AnalogInput(Constants.kLightSensor);
-  public DoubleSolenoid IntakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
+  public DoubleSolenoid IntakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3);
 
   /** Creates a new Intake. */
   public Intake() {

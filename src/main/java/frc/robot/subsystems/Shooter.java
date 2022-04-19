@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -31,7 +32,6 @@ public class Shooter extends SubsystemBase {
 
   /** Starts up the shooter with the button its set to */
   public void Shoot() {
-    SmartDashboard.putNumber("Shooter Voltage", shooterMotor.getBusVoltage());
     shooterMotor.set(shootSpeed);
   }
 
@@ -40,9 +40,12 @@ public class Shooter extends SubsystemBase {
     shooterMotor.set(shotSpeed);
   }
 
+  public void VelocityShoot(double shotVelocity) {
+    shooterMotor.set(ControlMode.Velocity, 1000);
+  }
+
   /** Stalls the shooter */
   public void ShootStall() {
-    SmartDashboard.putNumber("Shooter Voltage", shooterMotor.getBusVoltage());
     shooterMotor.set(.35);
   }
 
