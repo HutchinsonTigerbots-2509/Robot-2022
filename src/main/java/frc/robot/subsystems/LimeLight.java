@@ -5,22 +5,30 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 
 public class LimeLight extends SubsystemBase {
-  public static double tarea;
+  public static double tTurn;
+  NetworkTable LimeLightTable = NetworkTableInstance.getDefault().getTable("limelight");
+
+  private NetworkTableEntry tx = LimeLightTable.getEntry("tx");
 
   /** Creates a new LimeLight. */
   public LimeLight() {
-    NetworkTable LimeLightTable = NetworkTableInstance.getDefault().getTable("limelight");
-    NetworkTableEntry tx = LimeLightTable.getEntry("tx");
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public  double getTargetX() {
+    NetworkTableEntry mTableX = LimeLightTable.getEntry(Constants.kLimelightTargetXID);
+    double mTargetX = mTableX.getDouble(1.0);
+    return mTargetX;
   }
 }

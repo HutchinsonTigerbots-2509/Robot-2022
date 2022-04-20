@@ -25,10 +25,13 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.commands.Drive;
 import frc.robot.commands.DriveTele;
+import frc.robot.commands.DriveVision;
+import frc.robot.commands.DriveVision;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.Shooter;
 
 import java.util.ResourceBundle.Control;
@@ -61,6 +64,7 @@ public class RobotContainer {
   private Shooter sShooter = new Shooter();
   private Conveyor sConveyor = new Conveyor();
   private Climb sClimb = new Climb();
+  private LimeLight sLimeLight = new LimeLight();
 
   //TODO Add in vision subsystems
 
@@ -83,6 +87,7 @@ public class RobotContainer {
   private JoystickButton shootSpeedBtn1;
   private JoystickButton shootSpeedBtn2;
   private JoystickButton shootSpeedBtn3;
+  private JoystickButton autoVisionBtn;
 
 
 
@@ -242,8 +247,6 @@ public class RobotContainer {
     // autoSelect.addOption("BLUE_MIDDLE", blueMiddle);
     // autoSelect.addOption("BLUE_LEFt", blueLeft);
 
-    SmartDashboard.putData(AutoSelect);
-
     /*public Command getAutoCommand(){
       return autoSelect.getSelected();
     }*/
@@ -258,6 +261,9 @@ public class RobotContainer {
     conveyorOutBtn = new JoystickButton(stick, Constants.kJoystickButton3);
     conveyorOutBtn.whileHeld(new RunCommand(() -> sIntake.ConveyorOut(Constants.kMaxConveyorSpeed)));
     conveyorOutBtn.whenReleased(new InstantCommand(() -> sIntake.ConveyorStop()));
+
+    autoVisionBtn = new JoystickButton(controller, Constants.kXboxButtonB);
+    autoVisionBtn.toggleWhenPressed(new DriveVision(controller, sDrivetrain, sLimeLight));
 
     intakeBtn = new JoystickButton(controller, Constants.kXboxLeftBumper);
     intakeBtn.whileHeld(new RunCommand(() -> sIntake.IntakeIn()));
@@ -355,6 +361,7 @@ public class RobotContainer {
   public Shooter getShooter() { return sShooter; }
   public Conveyor getConveyor() { return sConveyor; }
   public Climb getClimb() { return sClimb; }
+  public LimeLight getLimeLight() { return sLimeLight; }
 
   public Joystick getStick() { return stick; }
   public Joystick getController() { return controller; }

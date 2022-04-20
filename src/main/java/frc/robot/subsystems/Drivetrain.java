@@ -15,6 +15,9 @@ import frc.robot.Constants;
 
 public class Drivetrain extends SubsystemBase {
 
+  // ***** Making Variables ***** //
+  public double z;
+
   // ***** Setting up Motors ***** //
   public WPI_TalonFX frontRightMotor = new WPI_TalonFX(Constants.kFrontRightID);
   public WPI_TalonFX frontLeftMotor = new WPI_TalonFX(Constants.kFrontLeftID);
@@ -43,6 +46,7 @@ public class Drivetrain extends SubsystemBase {
     rearLeftMotor.setNeutralMode(NeutralMode.Brake);
 
     GearUp();
+
   }
 
   @Override
