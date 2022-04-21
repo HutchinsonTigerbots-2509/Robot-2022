@@ -38,8 +38,8 @@ public class DriveVision extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_Vision.getTargetX() < 25) {turn = -.2;}
-    else if (m_Vision.getTargetX() > 35) {turn = .2;}
+    if(m_Vision.getTargetX() < 28) {turn = ((m_Vision.getTargetX() - 30) * .014) - .2;}
+    else if (m_Vision.getTargetX() > 32) {turn = ((m_Vision.getTargetX() - 30) * .014) + .2;}
     else {turn = 0;}
 
     SmartDashboard.putNumber("x", m_Vision.getTargetX());
