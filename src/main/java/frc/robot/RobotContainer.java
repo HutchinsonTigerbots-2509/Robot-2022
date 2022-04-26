@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SelectCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import frc.robot.commands.AutoDriveVision;
 import frc.robot.commands.Drive;
 import frc.robot.commands.DriveTele;
 import frc.robot.commands.DriveVision;
@@ -196,7 +196,7 @@ public class RobotContainer {
     new InstantCommand(() -> sShooter.Shoot(.75)), //Starts Shooter
     new Drive(sDrivetrain, .3).withTimeout(.6),
     new Drive(sDrivetrain, -.3).withTimeout(.6),
-    new Drive(sDrivetrain, 0, 0, .3).withTimeout(.2), //Drives Turnings Stops With Command
+    new AutoDriveVision(0, 0, sDrivetrain, sLimeLight).withTimeout(1),
     new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(3), //Runs Conveyor Into Shooter Stops With Command
     new InstantCommand(() -> sIntake.IntakeOff()), //Turns Off Intake
     new InstantCommand(() -> sIntake.ConveyorStop()), //Stops Conveyor
@@ -231,6 +231,7 @@ public class RobotContainer {
     AutoSelect.addOption("Middle2", Middle);
     AutoSelect.addOption("Right2", Right);
     AutoSelect.addOption("Left2", Left);
+    AutoSelect.addOption("Middle4", MiddleFar);
     AutoSelect.addOption("Potato", Potato);
     SmartDashboard.putData(AutoSelect);
     
