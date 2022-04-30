@@ -25,6 +25,8 @@ public final class Constants {
     public final static int kRearRightID = 0; // Verified that the Motor Ids were set to the correct values 3/19/22
     public final static double kHighSpeed = 1; // You are going to want to slow this down significantly, even for fast speed it is very high - S. Collins
     public final static double kLowSpeed = 0.4;
+    public final static double kHighSpeedStrafe = 1;
+    public final static double kLowSpeedStrafe = .6;
 
     // ***** Intake Constants ***** //
     public final static int kIntakeMotorID_0 = 11; //Motor ID for the front intake - S. COllins

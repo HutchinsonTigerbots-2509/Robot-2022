@@ -88,6 +88,7 @@ public class RobotContainer {
   private JoystickButton shootSpeedBtn2;
   private JoystickButton shootSpeedBtn3;
   private JoystickButton autoVisionBtn;
+  private JoystickButton gearBtn;
 
 
 
@@ -263,7 +264,7 @@ public class RobotContainer {
     conveyorOutBtn.whileHeld(new RunCommand(() -> sIntake.ConveyorOut(Constants.kMaxConveyorSpeed)));
     conveyorOutBtn.whenReleased(new InstantCommand(() -> sIntake.ConveyorStop()));
 
-    autoVisionBtn = new JoystickButton(controller, Constants.kXboxButtonB);
+    autoVisionBtn = new JoystickButton(controller, Constants.kXboxRightJoystickButton);
     autoVisionBtn.toggleWhenPressed(new DriveVision(controller, sDrivetrain, sLimeLight));
 
     intakeBtn = new JoystickButton(controller, Constants.kXboxLeftBumper);
@@ -291,11 +292,14 @@ public class RobotContainer {
     shootSpeedBtn3 = new JoystickButton(stick, Constants.kJoystickButton9);
     shootSpeedBtn3.whenPressed(new InstantCommand(() -> sShooter.ShootSpeed3()));
 
-    gearUpBtn = new JoystickButton(controller, Constants.kXboxButtonY);
-    gearUpBtn.whenPressed(new InstantCommand(() -> sDrivetrain.GearUp()));
+    // gearUpBtn = new JoystickButton(controller, Constants.kXboxButtonY);
+    // gearUpBtn.whenPressed(new InstantCommand(() -> sDrivetrain.GearUp()));
 
-    gearDownBtn = new JoystickButton(controller, Constants.kXboxButtonA);
-    gearDownBtn.whenPressed(new InstantCommand(() -> sDrivetrain.GearDown()));
+    // gearDownBtn = new JoystickButton(controller, Constants.kXboxButtonA);
+    // gearDownBtn.whenPressed(new InstantCommand(() -> sDrivetrain.GearDown()));
+
+    gearBtn = new JoystickButton(controller, Constants.kXboxLeftJoystickButton);
+    gearBtn.whenPressed(new InstantCommand(() -> sDrivetrain.Gear()));
 
     climbUpBtn = new JoystickButton(stick, Constants.kJoystickButton6);
     climbUpBtn.whenPressed(new InstantCommand(() -> sShooter.ShootStop()));

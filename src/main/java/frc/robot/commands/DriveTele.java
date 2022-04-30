@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 
@@ -30,9 +31,15 @@ public class DriveTele extends CommandBase {
   @Override
   public void execute() {
 
+  //   m_Drivetrain.TeleMecDrive(
+  //     -m_joystick.getRawAxis(Constants.kXboxLeftJoystickY),
+  //     m_joystick.getRawAxis(Constants.kXboxLeftJoystickX),
+  //     m_joystick.getRawAxis(Constants.kXboxRightJoystickX));
+  // }
+
     m_Drivetrain.TeleMecDrive(
       -m_joystick.getRawAxis(Constants.kXboxLeftJoystickY),
-      m_joystick.getRawAxis(Constants.kXboxLeftJoystickX),
+      m_Drivetrain.GetStrafeValue(m_joystick),
       m_joystick.getRawAxis(Constants.kXboxRightJoystickX));
   }
 

@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -16,6 +17,7 @@ import frc.robot.Constants;
 public class Drivetrain extends SubsystemBase {
 
   // ***** Making Variables ***** //
+  public double Strafe;
   public double z;
 
   // ***** Setting up Motors ***** //
@@ -29,6 +31,7 @@ public class Drivetrain extends SubsystemBase {
 
   //Setting the start gear to highgear
   private double speedValue = Constants.kHighSpeed;
+  private double speedValueStrafe = Constants.kHighSpeedStrafe;
 
   /** Creates a new Drivetrain. */
   public Drivetrain() {
@@ -66,7 +69,7 @@ public class Drivetrain extends SubsystemBase {
   public void TeleMecDrive(double y, double x, double z) {
     drivetrain.driveCartesian(
       y * speedValue,
-      x * speedValue,
+      x * speedValueStrafe,
       z * speedValue
       );
   }
@@ -88,8 +91,34 @@ public class Drivetrain extends SubsystemBase {
     return;
   }
 
-public double GetSpeedValue() {
+  /** Toggles the gear */
+  public void Gear() {
+    if (speedValue > .5) {
+      speedValue = Constants.kLowSpeed;
+      speedValueStrafe = Constants.kLowSpeedStrafe;
+    }
+    else {
+      speedValue = Constants.kHighSpeed;
+      speedValueStrafe = Constants.kHighSpeedStrafe;
+    }
+    return;
+  }
+
+  public double GetSpeedValue() {
     return 0;
-}
+  }
+
+  public double GetStrafeValue(Joystick XboxController) {
+    if (XboxController.getRawAxis(3) > 0) {
+      Strafe = XboxController.getRawAxis(3);
+    }
+    else if (XboxController.getRawAxis(2) > 0) {
+      Strafe = -XboxController.getRawAxis(2);
+    }
+    else {
+      Strafe = 0;
+    }
+    return Strafe;
+  }
 
 }
