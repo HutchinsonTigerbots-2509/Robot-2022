@@ -69,11 +69,11 @@ public class Intake extends SubsystemBase {
   /** Moves the Intake so that the ball gets into the Conveyor */
   public void IntakeIn(){
     if (LightSensor.getVoltage() < .2) {
-      Intake.set(ControlMode.PercentOutput,.6);
+      Intake.set(ControlMode.PercentOutput,.8);
       Conveyor.set(ControlMode.PercentOutput, 0);
     } 
     if (LightSensor.getVoltage() >= .2) {
-      Intake.set(ControlMode.PercentOutput,.6);
+      Intake.set(ControlMode.PercentOutput,.8);
       Conveyor.set(ControlMode.PercentOutput, -.6);
     }
   }

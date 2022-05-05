@@ -133,6 +133,7 @@ public class RobotContainer {
     new InstantCommand(() -> sIntake.IntakeSetAuto()), //Puts Intake Down
     new InstantCommand(() -> sIntake.IntakeIn(.5)), //Starts The Intake
     new Drive(sDrivetrain, .3).withTimeout(1), //Drives Forward Stops With Command
+    new Drive(sDrivetrain, 0).withTimeout(1),
     new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(1), //Run Conveyor Into Shooter Stops With Command
     new InstantCommand(() -> sIntake.ToggleIntakeSolenoid()), //Pulls Up Intake
     new InstantCommand(() -> sIntake.IntakeOff()), //Turns Off Intake
@@ -159,6 +160,7 @@ public class RobotContainer {
     new InstantCommand(() -> sIntake.IntakeSetAuto()), //Puts Intake Down
     new InstantCommand(() -> sIntake.IntakeIn(.5)), //Starts The Intake
     new Drive(sDrivetrain, .3).withTimeout(1), //Drives Forward Stops With Command
+    new Drive(sDrivetrain, 0).withTimeout(1),
     new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(1), //Run Conveyor Into Shooter Stops With Command
     new InstantCommand(() -> sIntake.ToggleIntakeSolenoid()), //Pulls Up Intake
     new InstantCommand(() -> sIntake.IntakeOff()), //Turns Off Intake
@@ -180,25 +182,25 @@ public class RobotContainer {
   private Command MiddleFar = new SequentialCommandGroup(
     new InstantCommand(() -> sShooter.Shoot()), //Starts Shooter
     new InstantCommand(() -> sIntake.IntakeSetAuto()), //Puts Intake Down
-    new InstantCommand(() -> sIntake.IntakeIn(.5)), //Starts The Intake
+    new InstantCommand(() -> sIntake.IntakeIn(.8)), //Starts The Intake
     new Drive(sDrivetrain, .3).withTimeout(1), //Drives Forward Stops With Command
     new Drive(sDrivetrain, 0, 0, -.3).withTimeout(.30), //Drives Turnings Stops With Command
     new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(2), //Run Conveyor Into Shooter Stops With Command
     new InstantCommand(() -> sIntake.ToggleIntakeSolenoid()), //Pulls Up Intake
     new InstantCommand(() -> sIntake.IntakeOff()), //Turns Off Intake
     new InstantCommand(() -> sShooter.Shoot(.55)), //Slows Shooter
-    new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(2), //Runs Conveyor Into Shooter Stops With Command
+    new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(1), //Runs Conveyor Into Shooter Stops With Command
     new InstantCommand(() -> sIntake.ConveyorStop()), //Stops Conveyor
     new Drive(sDrivetrain, 0, 0, .2).withTimeout(.45), //Drives Turnings Stops With Command
     new InstantCommand(() -> sIntake.ToggleIntakeSolenoid()), //Puts Down Intake
     new InstantCommand(() -> sIntake.IntakeIn(.5)), //Turns On Intake
     new Drive(sDrivetrain, .6).withTimeout(1.5), //Drives Forward Stops With Command
     new Drive(sDrivetrain, .2, .5, -.1).withTimeout(.8), //Drives Forward Stops With Command
-    new InstantCommand(() -> sShooter.Shoot(.75)), //Starts Shooter
+    new InstantCommand(() -> sShooter.Shoot(.85)), //Starts Shooter
     new Drive(sDrivetrain, .3).withTimeout(.6),
     new Drive(sDrivetrain, -.3).withTimeout(.6),
     new AutoDriveVision(0, 0, sDrivetrain, sLimeLight).withTimeout(1),
-    new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(3), //Runs Conveyor Into Shooter Stops With Command
+    new RunCommand(() -> sIntake.ConveyorIn(Constants.kMaxConveyorSpeed)).withTimeout(5), //Runs Conveyor Into Shooter Stops With Command
     new InstantCommand(() -> sIntake.IntakeOff()), //Turns Off Intake
     new InstantCommand(() -> sIntake.ConveyorStop()), //Stops Conveyor
     new InstantCommand(() -> sIntake.IntakeOff()), //Turns Off Intake
